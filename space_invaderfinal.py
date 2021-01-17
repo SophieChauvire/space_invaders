@@ -119,7 +119,7 @@ class vaisseau:
             self.jeu.current_shots.append(tir(self.canvas, self.jeu, self.canvas.coords(self.sprite)[0], self.canvas.coords(self.sprite)[1], -1))
             self.timer_shot = 0 # Remise à zéro du timer après un tir du vaisseau
         
-    def new_shot(self, event):
+    def nouveau_tir(self, event):
         if self.jeu.game_over:
             return
         if self.timer_shot >= 25:   # On ne peut pas tirer si le timer n'est pas terminé
