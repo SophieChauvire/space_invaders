@@ -7,10 +7,11 @@ Created on Fri Jan  8 09:21:09 2021
 
 from tkinter import Tk, Label, Entry, Button, Canvas
 from tkinter import Message, PhotoImage
-
+import math,random
 
 fenetre_jeu = Tk() #on crée la fenêtre
 fenetre_jeu.title('Space Invaders')
+largeur = 800
 Canevas = Canvas(fenetre_jeu, width = 800, height = 800, bg='black')
 #création du Canevas : zone graphique
 affichage_score = Label(fenetre_jeu, text = "Score : ", fg = "black")
@@ -95,25 +96,42 @@ class tir:
 
 
 class alien:
-    def __init__(self,x,y,r,direction):
+    def __init__(self,x,y,taille,direction): #ajouter param vitesse
         self.x = x
         self.y = y
-        self.r = r
+        self.taille = taille
         self.direction = direction
+        #self.vitesse = vitesse
         
     def element_alien(self): #fonction qui permet de mettre en place un alien/le créer sur le jeu
-        
-        
+         global x,y,taille,direction
+         self.alien_graph = Canevas.create_oval(x-taille,y-taille,x+taille,y+taille,width=1,outline="red",fille="red")
+    
+    def deplacement_alien(self):
+        global x,y,taille,direction #ajouter un param vitesse
+        if self.direction == "droite":
+            x = x+2
+        else:
+            x = x-2
+        self.alien_graph.coords(x-taille,y-taille,x+taille,y+taille,width=1,outline="red",fille="red")
             
         
         
             
+        
+        
+            
+
+        
+        
 liste_des_tirs_terrien = []
 liste_aliens = []
 vaisseau_spatial = vaisseau(200,250,500,750,4)
 Canevas.focus_set()
 Canevas.bind("<Key>",vaisseau_spatial.dep_clavier)
-Canevas.pack()     
+Canevas.pack()   
+alien1 = alien(100,500,10,"droite")  
+alien1.element_alien()
 fenetre_jeu.mainloop()
 tir1=tir(400,400)
 tir1.tirer_vaisseau()
