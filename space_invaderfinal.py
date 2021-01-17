@@ -46,6 +46,9 @@ class Bataillon:
                 self.liste_alien.append(alien(canvas, jeu, self, i+(12-length)//2, j, self.direction, self.speed, self.frequence, 2))
             self.liste_alien.append(alien(canvas, jeu, self, i+(12-length)//2, height-1, self.direction, self.speed, self.frequence, 1))
     def deplacement_bataillon(self):
+        """
+        commande le déplacement du bataillon
+        """
         if self.jeu.game_over or self.jeu.transition:
             return
         deplacement=True
@@ -65,11 +68,14 @@ class Bataillon:
 
             for alien in self.liste_alien:
                 self.canvas.move(alien.sprite, 0, 25)
-                alien.direction = (alien.direction == -1) - (alien.direction == 1) # Pas utilisé dans bataillon mais fait par rigueur
+                alien.direction = (alien.direction == -1) - (alien.direction == 1)
             self.direction = (self.direction == -1) - (self.direction == 1)
         self.canvas.after(self.frequence,self.movements)
     
     def nouveau_tir(self):
+        """
+        on détermine quand un alien va tirer
+        """
         if self.jeu.game_over or self.jeu.transition:
             return
         for alien in self.liste_alien:
