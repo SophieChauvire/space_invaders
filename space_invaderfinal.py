@@ -85,7 +85,7 @@ class vaisseau:
         self.image = PhotoImage(file='vaisseau.gif').subsample(10,10) #50px*50px
         self.sprite= canvas.create_image(posi_x,posi_y,image=self.image, anchor='nw')
         self.direction = 0
-        self.timer_shot = 1000
+        self.timer_tir = 1000
         self.tir = False
         
     def move_left(self, event):
@@ -104,7 +104,7 @@ class vaisseau:
         if (event.keysym == "Left" and self.direction == -1) or (event.keysym == "Right" and self.direction == 1):
             self.direction = 0
         if (event.keysym == "space" and self.tir == 1):
-            self.shot = False
+            self.tir = False
 
     def deplacement_vaisseau(self):  # Déplacement du sprite
         if self.jeu.game_over:
@@ -115,22 +115,22 @@ class vaisseau:
             self.canvas.move(self.sprite, self.direction*5,0)
             self.canvas.after(16,self.deplacement_vaisseau)
         
-        if self.tir == True and self.timer_shot >= 25 and not(self.jeu.transition):
-            self.jeu.current_shots.append(tir(self.canvas, self.jeu, self.canvas.coords(self.sprite)[0], self.canvas.coords(self.sprite)[1], -1))
-            self.timer_shot = 0 # Remise à zéro du timer après un tir du vaisseau
+        if self.tir == True and self.timer_tir >= 25 and not(self.jeu.transition):
+            self.jeu.current_tirs.append(tir(self.canvas, self.jeu, self.canvas.coords(self.sprite)[0], self.canvas.coords(self.sprite)[1], -1))
+            self.timer_tir = 0 # Remise à zéro du timer après un tir du vaisseau
         
     def nouveau_tir(self, event):
         if self.jeu.game_over:
             return
-        if self.timer_shot >= 25:   # On ne peut pas tirer si le timer n'est pas terminé
-            self.shot = True
+        if self.timer_tir >= 25:   # On ne peut pas tirer si le timer n'est pas terminé
+            self.tir = True
     
-    def no_shot(self):   # Incrémentation du timer entre deux tirs
+    def no_tir(self):   # Incrémentation du timer entre deux tirs
         if self.jeu.game_over:
             return
-        self.timer_shot += 1
+        self.timer_tir += 1
 
-        self.canvas.after(16, self.no_shot) # à modifier si on veut changer la fréquence des tirs
+        self.canvas.after(16, self.no_tir) # à modifier si on veut changer la fréquence des tirs
 
 #classe dans laquelle on définit tirs vaisseau et aliens
 class tir:
