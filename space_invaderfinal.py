@@ -44,7 +44,7 @@ class Bataillon:
                 self.liste_alien.append(alien(canvas, jeu, self, i+(12-length)//2, j, self.direction, self.speed, self.frequence, 2))
             self.liste_alien.append(alien(canvas, jeu, self, i+(12-length)//2, height-1, self.direction, self.speed, self.frequence, 1))
     def deplacement_bataillon(self):
-        if self.jeu.jeu_over or self.jeu.transition:
+        if self.jeu.game_over or self.jeu.transition:
             return
         deplacement=True
         for alien in self.liste_alien:
@@ -56,8 +56,8 @@ class Bataillon:
         else:
             for alien in self.liste_alien:
                 if self.canvas.coords(alien.sprite)[1] + 50 + 25 > 490:
-                    self.jeu.jeu_over = True
-            if self.jeu.jeu_over:
+                    self.jeu.game_over = True
+            if self.jeu.game_over:
                 self.canvas.after(16, self.jeu.end_jeu)
                 return
 
@@ -68,7 +68,7 @@ class Bataillon:
         self.canvas.after(self.frequence,self.movements)
     
     def nouveau_tir(self):
-        if self.jeu.jeu_over or self.jeu.transition:
+        if self.jeu.game_over or self.jeu.transition:
             return
         for alien in self.liste_alien:
             tir_proba = rd.randint(0,self.proba)
