@@ -103,9 +103,8 @@ class alien:
         self.direction = direction
         #self.vitesse = vitesse
         
-    def element_alien(self): #fonction qui permet de mettre en place un alien/le créer sur le jeu
-         global x,y,taille,direction
-         self.alien_graph = Canevas.create_oval(x-taille,y-taille,x+taille,y+taille,width=1,outline="red",fille="red")
+    def element_alien(self,x,y,taille): #fonction qui permet de mettre en place un alien/le créer sur le jeu
+         self.alien_graph = Canevas.create_oval(x-taille,y-taille,x+taille,y+taille,width=1,outline="red",fill="red")
     
     def deplacement_alien(self):
         global x,y,taille,direction #ajouter un param vitesse
@@ -131,7 +130,8 @@ Canevas.focus_set()
 Canevas.bind("<Key>",vaisseau_spatial.dep_clavier)
 Canevas.pack()   
 alien1 = alien(100,500,10,"droite")  
-alien1.element_alien()
+alien1.element_alien(100,500,10)
+alien1.deplacement_alien
 fenetre_jeu.mainloop()
 tir1=tir(400,400)
 tir1.tirer_vaisseau()
