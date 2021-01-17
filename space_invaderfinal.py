@@ -25,7 +25,57 @@ class alien:
         self.pv = niv
         #if self.pv == 3:
          #   self.pv = 1
+class Bataillon:
+    """Classe du bataillon , le bataillon constituant un groupe d'ennemis
+    """
+    def __init__(self,canvas, jeu, length, height, speed = 0.5, proba = 5000,frequence = 20, direction = 1):
+        self.canvas = canvas
+        self.jeu = jeu
+        self.length = length
+        self.height = height
+        self.speed = speed
+        self.proba = proba
+        self.frequence = frequence
+        self.direction = direction
+        self.liste_alien = []
+        
+        for i in range(length):
+            for j in range(height-1):
+                self.liste_alien.append(alien(canvas, jeu, self, i+(12-length)//2, j, self.direction, self.speed, self.frequence, 2))
+            self.liste_alien.append(alien(canvas, jeu, self, i+(12-length)//2, height-1, self.direction, self.speed, self.frequence, 1))
+    def deplacement_bataillon(self):
+        if self.jeu.jeu_over or self.jeu.transition:
+            return
+        deplacement=True
+        for alien in self.liste_alien:
+            if self.canvas.coords(alien.sprite)[0] + self.direction*self.speed < 0 or self.canvas.coords(alien.sprite)[0] + self.direction*self.speed + 50 > 600:
+                deplacement = False
+        if deplacement:
+            for alien in self.liste_alien:
+                self.canvas.move(alien.sprite, self.direction*self.speed, 0)
+        else:
+            for alien in self.liste_alien:
+                if self.canvas.coords(alien.sprite)[1] + 50 + 25 > 490:
+                    self.jeu.jeu_over = True
+            if self.jeu.jeu_over:
+                self.canvas.after(16, self.jeu.end_jeu)
+                return
 
+            for alien in self.liste_alien:
+                self.canvas.move(alien.sprite, 0, 25)
+                alien.direction = (alien.direction == -1) - (alien.direction == 1) # Pas utilisé dans bataillon mais fait par rigueur
+            self.direction = (self.direction == -1) - (self.direction == 1)
+        self.canvas.after(self.frequence,self.movements)
+    
+    def nouveau_tir(self):
+        if self.jeu.jeu_over or self.jeu.transition:
+            return
+        for alien in self.liste_alien:
+            tir_proba = rd.randint(0,self.proba)
+            if tir_proba <= 1:
+                self.jeu.current_tirs.append(tir(self.canvas, self.jeu, self.canvas.coords(alien.sprite)[0], self.canvas.coords(alien.sprite)[1], 1))
+        self.canvas.after(16, self.nouveau_tir)
+                
 
 
 class vaisseau:
