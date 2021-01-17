@@ -28,13 +28,13 @@ class alien:
 class Bataillon:
     """Classe du bataillon , le bataillon constituant un groupe d'ennemis
     """
-    def __init__(self,canvas, jeu, length, height, speed = 0.5, proba = 5000,frequence = 20, direction = 1):
+    def __init__(self,canvas, jeu, length, height, speed = 0.5, cadence_tir = 5000,frequence = 20, direction = 1):
         self.canvas = canvas
         self.jeu = jeu
         self.length = length
         self.height = height
         self.speed = speed
-        self.proba = proba
+        self.cadence_tir = cadence_tir
         self.frequence = frequence
         self.direction = direction
         self.liste_alien = []
@@ -71,8 +71,8 @@ class Bataillon:
         if self.jeu.game_over or self.jeu.transition:
             return
         for alien in self.liste_alien:
-            tir_proba = rd.randint(0,self.proba)
-            if tir_proba <= 1:
+            tir_cadence_tir = rd.randint(0,self.cadence_tir)
+            if tir_cadence_tir <= 1:
                 self.jeu.current_tirs.append(tir(self.canvas, self.jeu, self.canvas.coords(alien.sprite)[0], self.canvas.coords(alien.sprite)[1], 1))
         self.canvas.after(16, self.nouveau_tir)
                 
